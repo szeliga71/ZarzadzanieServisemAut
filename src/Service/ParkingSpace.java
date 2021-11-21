@@ -1,6 +1,10 @@
 package Service;
 
+import items.Pojazd;
+
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ParkingSpace {
 
@@ -9,14 +13,16 @@ public class ParkingSpace {
     int serviceId;
     LocalDate rental;
     LocalDate endRental;
+    Pojazd auto;
 
-    public ParkingSpace(int serviceId, int carId, LocalDate rental, LocalDate endRental) {
+    public ParkingSpace(int serviceId, int carId, LocalDate rental, LocalDate endRental,Pojazd auto) {
 
         this.id = hashCode();
         this.serviceId=serviceId;
         this.carId=carId;
         this.rental = rental;
         this.endRental = endRental;
+        this.auto=auto;
     }
 
     public int getId() {
@@ -45,6 +51,14 @@ public class ParkingSpace {
 
     public void setEndRental(LocalDate endRental) {
         this.endRental = endRental;
+    }
+
+    public Pojazd getAuto() {
+        return auto;
+    }
+
+    public void setAuto(Pojazd auto) {
+        this.auto = auto;
     }
 
     @Override

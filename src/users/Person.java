@@ -108,14 +108,26 @@ public class Person   {
         return pslist;}
 
 
-    public void rentParking(ParkingSpace x, LocalDate currentDate, int autoId, int day) {
+    public void rentParking(ParkingSpace x, LocalDate currentDate, Pojazd pojazd, int day,Person p) {
         x.setRental(currentDate);
-        x.setCarId(autoId);
+        x.setCarId(pojazd.getId());
+        x.setAuto(pojazd);
         x.setEndRental(currentDate.plusDays(day));
-
+        p.getAuta().remove(pojazd);
     }
 
 
+    public void leaveParking(List<Uzytkownik>lista,Uzytkownik u,Person p){
+        ParkingSpace x=(ParkingSpace)u.getPlace();
+        Pojazd auto=x.getAuto();
+        p.getAuta().add(auto);
+        x.setRental(null);
+        x.setEndRental(null);
+        lista.remove(u);
+
+
+
+    }
 
 /*  @Override
     public String toString() {

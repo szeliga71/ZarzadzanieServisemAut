@@ -2,6 +2,8 @@ package users;
 
 import Service.ConsumerWarehouse;
 import Service.ParkingSpace;
+import items.Pojazd;
+
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -42,13 +44,14 @@ public class Uzytkownik <T> extends Person {
 
     }
 
-    public void rentParking(ParkingSpace x, LocalDate currentDate, int autoId, int day) {
+    public void rentParking(ParkingSpace x, LocalDate currentDate, Pojazd pojazd, int day, Person p) {
         x.setRental(currentDate);
-        x.setCarId(autoId);
+        x.setCarId(pojazd.getId());
+        x.setAuto(pojazd);
         x.setEndRental(currentDate.plusDays(day));
-
+        p.getAuta().remove(pojazd);
     }
-    public List<Uzytkownik> leaveParking(Person p, List<Uzytkownik> lista) {
+    public List<Uzytkownik> leaveParkingList(Person p, List<Uzytkownik> lista) {
 
         List<Uzytkownik> pslist = new ArrayList<>();
         for (Uzytkownik u : lista) {
@@ -60,15 +63,24 @@ public class Uzytkownik <T> extends Person {
         return pslist;}
 
 
-    public void leaveParking(List<Uzytkownik>lista,Uzytkownik u){
-
-
+    public void leaveParking(List<Uzytkownik>lista,Uzytkownik u,Person p){
+        ParkingSpace x=(ParkingSpace)u.getPlace();
+        Pojazd auto=x.getAuto();
+        p.getAuta().add(auto);
+        x.setRental(null);
+        x.setEndRental(null);
         lista.remove(u);
-
-
-
     }
+    public void leaveWarehouse(List<Uzytkownik>lista,Uzytkownik u){
+        ConsumerWarehouse x=(ConsumerWarehouse) u.getPlace();
+        u.getPerson().getItems().addAll(x.getItems());
 
+        x.getItems().clear();
+
+        x.setRental(null);
+        x.setEndRental(null);
+        lista.remove(u);
+    }
 
 
     @Override
